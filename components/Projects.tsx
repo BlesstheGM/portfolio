@@ -9,24 +9,10 @@ interface Project {
   deployment?: string;
   status: 'active' | 'shipped';
   github: string;
+  demo?: string;
 }
 
 const projects: Project[] = [
-  {
-    name: 'Market Data & Research Pipeline',
-    filename: 'research_pipeline.py',
-    desc: 'Data collection and analysis pipeline for live Polymarket and Coinbase order-book data. Used to validate strategies before deploying to the live trading bot — simulation-first approach.',
-    highlights: [
-      'Tick data collection from Polymarket & Coinbase CLOB order books via WebSocket',
-      'Probes for lead-lag behaviour, fill quality, signal accuracy, flip detection, and latency-sensitive execution decisions',
-      'Results drove trading rules, order types, sizing logic, and risk controls in the trading bot',
-    ],
-    stack: ['Python', 'Streamlit', 'pandas', 'NumPy', 'WebSockets', 'REST APIs', 'SQLite'],
-    testing: 'Simulation runs on historical tick data · Metrics logging · Visualised in Streamlit',
-    vcs: 'Git / GitHub',
-    status: 'active',
-    github: 'https://github.com/BlesstheGM',
-  },
   {
     name: 'CalendarSite',
     filename: 'calendar_site/',
@@ -42,6 +28,21 @@ const projects: Project[] = [
     deployment: 'Render',
     status: 'shipped',
     github: 'https://github.com/BlesstheGM/CalendarSite',
+  },
+  {
+    name: 'Offline P2P Messenger',
+    filename: 'BluetoothMesh.kt',
+    desc: 'Android peer-to-peer messenger that routes messages over Bluetooth mesh connections — fully offline, no internet required. Final year group project at UCT, scored 80%+.',
+    highlights: [
+      'Bluetooth nodes relay messages through the mesh — works in areas with zero connectivity',
+      'Android app with chat UI; messages routed through intermediate devices acting as nodes',
+      'Collaborative group project with version-controlled development workflow',
+    ],
+    stack: ['Kotlin', 'Java', 'Android SDK', 'Bluetooth API', 'P2P Networking'],
+    testing: 'Device-to-device manual testing · Multi-hop relay tests across 3+ devices',
+    vcs: 'Git / GitHub',
+    status: 'shipped',
+    github: 'https://github.com/BlesstheGM',
   },
   {
     name: 'Multithreaded Concurrent Swimming Race',
@@ -74,21 +75,6 @@ const projects: Project[] = [
     github: 'https://github.com/BlesstheGM/Sandpile-Image-Generator',
   },
   {
-    name: 'Offline P2P Messenger',
-    filename: 'BluetoothMesh.kt',
-    desc: 'Android peer-to-peer messenger that routes messages over Bluetooth mesh connections — fully offline, no internet required. Final year group project at UCT, scored 80%+.',
-    highlights: [
-      'Bluetooth nodes relay messages through the mesh — works in areas with zero connectivity',
-      'Android app with chat UI; messages routed through intermediate devices acting as nodes',
-      'Collaborative group project with version-controlled development workflow',
-    ],
-    stack: ['Kotlin', 'Java', 'Android SDK', 'Bluetooth API', 'P2P Networking'],
-    testing: 'Device-to-device manual testing · Multi-hop relay tests across 3+ devices',
-    vcs: 'Git / GitHub',
-    status: 'shipped',
-    github: 'https://github.com/BlesstheGM',
-  },
-  {
     name: 'Image Viewer',
     filename: 'main.py',
     desc: 'A Python desktop image viewer with a custom GUI — supports directory browsing, image editing, a favourites system, and keyboard navigation.',
@@ -117,6 +103,7 @@ const projects: Project[] = [
     vcs: 'Git / GitHub',
     status: 'shipped',
     github: 'https://github.com/BlesstheGM/Super-Dupa-Game',
+    demo: 'https://www.linkedin.com/posts/blessing-hlongwane-740ab426a_super-dupa-game-im-thrilled-to-unveil-ugcPost-7265255517302759427-l1KU/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEIDsiAB3Jo_pTiEVeYxJu8HLZTkaOeY1dw',
   },
   {
     name: 'Email Summarizer',
@@ -144,6 +131,21 @@ const projects: Project[] = [
     ],
     stack: ['Python', 'asyncio', 'uvloop', 'WebSockets', 'Polymarket CLOB', 'Chainlink', 'Deribit API', 'orjson', 'REST APIs'],
     testing: 'Paper/live mode toggle · Trade logging · Retry guards · Exposure limit checks',
+    vcs: 'Git / GitHub',
+    status: 'active',
+    github: 'https://github.com/BlesstheGM',
+  },
+  {
+    name: 'Market Data & Research Pipeline',
+    filename: 'research_pipeline.py',
+    desc: 'Data collection and analysis pipeline for live Polymarket and Coinbase order-book data. Used to validate strategies before deploying to the live trading bot — simulation-first approach.',
+    highlights: [
+      'Tick data collection from Polymarket & Coinbase CLOB order books via WebSocket',
+      'Probes for lead-lag behaviour, fill quality, signal accuracy, flip detection, and latency-sensitive execution decisions',
+      'Results drove trading rules, order types, sizing logic, and risk controls in the trading bot',
+    ],
+    stack: ['Python', 'Streamlit', 'pandas', 'NumPy', 'WebSockets', 'REST APIs', 'SQLite'],
+    testing: 'Simulation runs on historical tick data · Metrics logging · Visualised in Streamlit',
     vcs: 'Git / GitHub',
     status: 'active',
     github: 'https://github.com/BlesstheGM',
@@ -213,6 +215,16 @@ export default function Projects() {
                 >
                   ↗ GitHub
                 </a>
+                {p.demo && (
+                  <a
+                    href={p.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-link"
+                  >
+                    ↗ LinkedIn Demo
+                  </a>
+                )}
               </div>
             </div>
           </div>
