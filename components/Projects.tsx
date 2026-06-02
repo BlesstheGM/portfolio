@@ -13,21 +13,6 @@ interface Project {
 
 const projects: Project[] = [
   {
-    name: 'Crypto Trading Bot',
-    filename: 'polymarket_bot.py',
-    desc: 'Live crypto trading bot for Polymarket 5-minute UP/DOWN binary markets. Integrates Coinbase WebSocket spot data, Deribit implied volatility, Polymarket CLOB order books, and Chainlink/Polygon resolution data into a single low-latency execution engine.',
-    highlights: [
-      'Strategies: probability signals, order-flow imbalance, microprice, dynamic position sizing, arbitrage, market-making',
-      'Execution layer: CLOB order signing, FOK/FAK/GTC order handling, pre-signed orders, latency-aware buy-path optimisation',
-      'Risk tooling: exposure limits, budget caps, automated merge/redeem workflows onchain, balance recovery, post-resolution settlement',
-    ],
-    stack: ['Python', 'asyncio', 'uvloop', 'WebSockets', 'Polymarket CLOB', 'Chainlink', 'Deribit API', 'orjson', 'REST APIs'],
-    testing: 'Paper/live mode toggle · Trade logging · Retry guards · Exposure limit checks',
-    vcs: 'Git / GitHub',
-    status: 'active',
-    github: 'https://github.com/BlesstheGM',
-  },
-  {
     name: 'Market Data & Research Pipeline',
     filename: 'research_pipeline.py',
     desc: 'Data collection and analysis pipeline for live Polymarket and Coinbase order-book data. Used to validate strategies before deploying to the live trading bot — simulation-first approach.',
@@ -145,6 +130,21 @@ const projects: Project[] = [
     stack: ['n8n', 'OpenAI API', 'Gmail API', 'JavaScript', 'Workflow Automation'],
     testing: 'Tested on varied daily email volumes · Edge cases for empty inboxes and large attachments',
     vcs: 'Git',
+    status: 'active',
+    github: 'https://github.com/BlesstheGM',
+  },
+  {
+    name: 'Crypto Trading Bot',
+    filename: 'polymarket_bot.py',
+    desc: 'Live crypto trading bot for Polymarket 5-minute UP/DOWN binary markets. Integrates Coinbase WebSocket spot data, Deribit implied volatility, Polymarket CLOB order books, and Chainlink/Polygon resolution data into a single low-latency execution engine.',
+    highlights: [
+      'Strategies: probability signals, order-flow imbalance, microprice, dynamic position sizing, arbitrage, market-making',
+      'Execution layer: CLOB order signing, FOK/FAK/GTC order handling, pre-signed orders, latency-aware buy-path optimisation',
+      'Risk tooling: exposure limits, budget caps, automated merge/redeem workflows onchain, balance recovery, post-resolution settlement',
+    ],
+    stack: ['Python', 'asyncio', 'uvloop', 'WebSockets', 'Polymarket CLOB', 'Chainlink', 'Deribit API', 'orjson', 'REST APIs'],
+    testing: 'Paper/live mode toggle · Trade logging · Retry guards · Exposure limit checks',
+    vcs: 'Git / GitHub',
     status: 'active',
     github: 'https://github.com/BlesstheGM',
   },

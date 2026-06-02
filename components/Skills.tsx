@@ -29,7 +29,7 @@ const groups = [
   },
   {
     cat: 'Certifications',
-    items: ['AWS Solutions Architect (In Progress)', 'LinkedIn Python Data Analysis (2024)'],
+    items: ['LinkedIn Python Data Analysis (2024)'],
   },
 ];
 

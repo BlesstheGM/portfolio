@@ -36,11 +36,7 @@ export default function Hero() {
             </div>
             <div className="t-line">
               <span className="t-out t-warn">▶</span>
-              <span className="t-out">AWS Solutions Architect — In Progress</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out t-warn">▶</span>
-              <span className="t-out">Open to opportunities in Data, Backend, and Systems Engineering</span>
+              <span className="t-out">Open to full-stack software engineering &amp; development roles</span>
             </div>
             <div className="t-line t-blank" />
             <div className="t-line">
