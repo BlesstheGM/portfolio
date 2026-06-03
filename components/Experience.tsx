@@ -18,7 +18,6 @@ const experience = [
     period: '2024 – 2025',
     bullets: [
       'Evaluated student assignments and provided constructive, detailed written feedback',
-      'Supported students in understanding core CS concepts including algorithms and data structures',
     ],
   },
 ];

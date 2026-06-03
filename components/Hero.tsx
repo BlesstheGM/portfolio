@@ -33,9 +33,6 @@ export default function Hero() {
             <div className="t-line">
               <span className="t-out">Backend developer building REST APIs, data pipelines, and real-time systems.</span>
             </div>
-            <div className="t-line">
-              <span className="t-out">CS &amp; Applied Statistics at UCT. Open to backend &amp; software engineering roles.</span>
-            </div>
             <div className="t-line t-blank" />
             <div className="t-line">
               <span className="t-prompt">$</span>
