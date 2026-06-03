@@ -14,21 +14,11 @@ const experience = [
   {
     company: 'University of Cape Town',
     location: 'Cape Town',
-    role: 'Computer Science Tutor',
+    role: 'IT Help Desk Assistant',
     period: '2024 – 2025',
     bullets: [
       'Evaluated student assignments and provided constructive, detailed written feedback',
       'Supported students in understanding core CS concepts including algorithms and data structures',
-    ],
-  },
-  {
-    company: 'TomorrowTrust',
-    location: 'Cape Town',
-    role: 'Coding Facilitator',
-    period: '2024 – Jun 2024',
-    bullets: [
-      'Designed and delivered lessons on HTML, CSS, and JavaScript fundamentals to high school students',
-      'Facilitated hands-on coding exercises to build foundational programming intuition',
     ],
   },
 ];

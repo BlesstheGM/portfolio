@@ -23,7 +23,18 @@ export default function Hero() {
               <span className="t-cmd">cat role.txt</span>
             </div>
             <div className="t-line">
-              <span className="t-out">Data Scientist · Full-Stack Developer</span>
+              <span className="t-out">Backend Developer · Python &amp; Java</span>
+            </div>
+            <div className="t-line t-blank" />
+            <div className="t-line">
+              <span className="t-prompt">$</span>
+              <span className="t-cmd">cat about.txt</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">Backend developer building REST APIs, data pipelines, and real-time systems.</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">CS &amp; Applied Statistics at UCT. Open to backend &amp; software engineering roles.</span>
             </div>
             <div className="t-line t-blank" />
             <div className="t-line">
@@ -36,7 +47,7 @@ export default function Hero() {
             </div>
             <div className="t-line">
               <span className="t-out t-warn">▶</span>
-              <span className="t-out">Open to full-stack software engineering &amp; development roles</span>
+              <span className="t-out">Open to backend &amp; software engineering roles</span>
             </div>
             <div className="t-line t-blank" />
             <div className="t-line">
@@ -47,8 +58,8 @@ export default function Hero() {
         </div>
 
         <h1 className="hero-name">Blessing Hlongwane</h1>
-        <p className="hero-title">Data Scientist — looking for Software Engineering & Full-Stack roles</p>
-        <p className="hero-location">📍 Cape Town / Johannesburg · University of Cape Town</p>
+        <p className="hero-title">Backend Developer — open to backend &amp; software engineering roles</p>
+        <p className="hero-location">University of Cape Town</p>
 
         <div className="hero-cta">
           <a href="#projects" className="btn">View Projects</a>

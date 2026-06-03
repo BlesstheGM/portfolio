@@ -1,23 +1,19 @@
 const groups = [
   {
     cat: 'Languages',
-    items: ['Python', 'Rust', 'Java', 'Kotlin', 'C# .NET', 'JavaScript', 'SQL', 'Shell Scripting', 'HTML/CSS'],
+    items: ['Python', 'Java', 'JavaScript', 'TypeScript', 'SQL', 'Shell Scripting', 'HTML/CSS'],
   },
   {
-    cat: 'Data & ML',
-    items: ['pandas', 'NumPy', 'Streamlit', 'Metabase', 'Superset', 'Matplotlib', 'scikit-learn', 'pytest'],
+    cat: 'APIs & Protocols',
+    items: ['REST APIs', 'GraphQL', 'WebSockets', 'FastAPI', 'SOAP', 'asyncio', 'uvloop', 'Polymarket CLOB', 'Chainlink Data Feeds'],
   },
   {
     cat: 'Cloud & Infra',
     items: ['AWS EC2', 'AWS Lambda', 'CloudWatch', 'S3', 'Athena', 'Redshift', 'Docker', 'Linux', 'CI/CD Pipelines'],
   },
   {
-    cat: 'APIs & Protocols',
-    items: ['WebSockets', 'REST APIs', 'SOAP', 'Polymarket CLOB', 'Chainlink Data Feeds', 'Polygon Alchemy RPC', 'FastAPI', 'asyncio', 'uvloop'],
-  },
-  {
     cat: 'Databases',
-    items: ['MySQL', 'SQLite', 'SQLAlchemy', 'PostgreSQL', 'Pydantic'],
+    items: ['PostgreSQL', 'MySQL', 'SQLite', 'SQLAlchemy', 'Supabase', 'Pydantic'],
   },
   {
     cat: 'Deployments',
@@ -26,6 +22,10 @@ const groups = [
   {
     cat: 'Tools & Workflow',
     items: ['Git', 'GitHub', 'Docker', 'n8n', 'LLMs / AI APIs', 'Wireshark', 'Makefile'],
+  },
+  {
+    cat: 'Data & ML',
+    items: ['pandas', 'NumPy', 'Streamlit', 'Metabase', 'pytest'],
   },
   {
     cat: 'Certifications',

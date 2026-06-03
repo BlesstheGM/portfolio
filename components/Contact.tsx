@@ -40,10 +40,6 @@ export default function Contact() {
             linkedin.com/in/blessing-hlongwane ↗
           </a>
         </div>
-        <div className="contact-row">
-          <span className="contact-label">location</span>
-          <span className="contact-val" style={{ cursor: 'default' }}>Cape Town, South Africa</span>
-        </div>
         <div className="contact-row" style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
           <span className="contact-label">reference</span>
           <span className="contact-val" style={{ cursor: 'default', color: 'var(--dim)', fontSize: '0.84rem' }}>
