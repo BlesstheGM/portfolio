@@ -16,7 +16,7 @@ const projects: Project[] = [
   {
     name: 'Retail Price Aggregator API',
     filename: 'rprc/',
-    desc: 'South Africa\'s first on-chain retail price oracle. Scrapes real-time food and grocery prices from 10 major SA retailers (~120,000 SKUs), stores full price history in Postgres, and publishes verified price feeds on Base chain — consumable by DeFi protocols, AI agents, and price comparison apps.',
+    desc: 'An on-chain retail price oracle being built for the SA market. Scrapes real-time food and grocery prices from 10 major SA retailers (~120,000 SKUs), stores full price history in Postgres, and publishes verified price feeds on Base chain — consumable by DeFi protocols, AI agents, and price comparison apps.',
     highlights: [
       'Discovery-first scrapers: dynamically walks full category trees for all 10 retailers — Checkers, Shoprite, PnP, Woolworths, Spar, Makro, Mr D, Uber Eats SA, Glovo, OneCart',
       'Location-driven scraping using OpenStreetMap store coordinates — passes real branch lat/lng to bypass mandatory address/store selection modals',
