@@ -44,7 +44,7 @@ export default function Hero() {
             </div>
             <div className="t-line">
               <span className="t-out t-warn">▶</span>
-              <span className="t-out">Open to backend &amp; software engineering roles</span>
+              <span className="t-out">Open to software engineering/development roles</span>
             </div>
             <div className="t-line t-blank" />
             <div className="t-line">
