@@ -31,7 +31,16 @@ export default function Hero() {
               <span className="t-cmd">cat about.txt</span>
             </div>
             <div className="t-line">
-              <span className="t-out">Backend developer building REST APIs, data pipelines, and real-time systems.</span>
+              <span className="t-out">Backend developer proficient in Python and Java. I ship APIs, design databases,</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">and know my way around WebSockets and real-time systems. At Slant Research</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">I worked with AWS in an agile environment with daily scrum meetings. Now I&apos;m</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">building a FastAPI-powered REST backend aggregating South African retail prices.</span>
             </div>
             <div className="t-line t-blank" />
             <div className="t-line">
