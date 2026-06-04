@@ -1,7 +1,7 @@
 const groups = [
   {
     cat: 'Languages',
-    items: ['Python', 'Java', 'JavaScript', 'TypeScript', 'SQL', 'Shell Scripting', 'HTML/CSS'],
+    items: ['Python', 'Java', 'JavaScript', 'TypeScript', 'Node.js', 'SQL', 'Shell Scripting', 'HTML/CSS'],
   },
   {
     cat: 'APIs & Protocols',
