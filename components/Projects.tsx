@@ -7,7 +7,7 @@ interface Project {
   testing: string;
   vcs: string;
   deployment?: string;
-  status: 'active' | 'shipped';
+  status: 'active' | 'shipped' | 'in progress';
   github: string;
   demo?: string;
 }
@@ -25,7 +25,7 @@ const projects: Project[] = [
     stack: ['Python', 'Playwright', 'httpx', 'BeautifulSoup', 'Next.js', 'TypeScript', 'Supabase', 'Solidity', 'Foundry', 'Base chain', 'viem', 'Upstash Redis', 'GitHub Actions'],
     testing: 'Per-store scraper validation · Category tree walk tests · On-chain oracle deviation checks',
     vcs: 'Git / GitHub',
-    status: 'active',
+    status: 'in progress',
     github: 'https://github.com/BlesstheGM',
   },
   {

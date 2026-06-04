@@ -308,8 +308,9 @@ a { text-decoration: none; color: inherit; }
   border-radius: 3px;
   margin-left: 0.75rem;
 }
-.project-status.active { color: var(--blue); border-color: #1e3a1e; }
+.project-status.active { color: var(--blue); border-color: #0d2535; }
 .project-status.shipped { color: var(--warn); border-color: #3a3000; }
+.project-status.in { color: #b388ff; border-color: #2a1a4a; }
 
 .project-name-row { display: flex; align-items: baseline; margin-bottom: 0.6rem; }
 
