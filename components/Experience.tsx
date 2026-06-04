@@ -5,11 +5,11 @@ const experience = [
     role: 'Data Scientist',
     period: '2025 – May 2026',
     bullets: [
-      'Monitored and maintained AWS-based data pipelines across EC2, S3, Lambda, and CloudWatch, ensuring ETL runs completed reliably',
-      'Wrote SQL queries to refine categorisation algorithms and uncover insights into customer spending behaviour',
-      'Authored shell and Python scripts to automate recurring pipeline tasks, cutting pipeline runtime from 3 hours to 15 minutes',
-      'Refined categorisation algorithms, improving classification accuracy by 20% across key keyword categories',
-      'Developed Streamlit and Metabase dashboards to surface internal insights for the wider team',
+      'Monitored and maintained AWS pipelines across EC2, S3, Lambda, CloudWatch',
+      'Wrote SQL queries to refine categorisation algorithms + uncover spending insights',
+      'Shell/Python scripts cut pipeline runtime from 3 hours to 15 minutes',
+      'Categorisation accuracy improved by 20%',
+      'Built Streamlit and Metabase dashboards for internal insights',
     ],
   },
   {
