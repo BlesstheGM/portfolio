@@ -72,7 +72,7 @@ a { text-decoration: none; color: inherit; }
 .section {
   max-width: 920px;
   margin: 0 auto;
-  padding: 3rem 1.5rem 1.5rem;
+  padding: 2rem 1.5rem 1rem;
 }
 .section-header {
   display: flex;
