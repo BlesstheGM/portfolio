@@ -8,7 +8,7 @@ const experience = [
       'Monitored and maintained AWS-based data pipelines across EC2, S3, Lambda, and CloudWatch, ensuring ETL runs completed reliably',
       'Wrote SQL queries to refine categorisation algorithms and uncover insights into customer spending behaviour',
       'Authored shell and Python scripts to automate recurring pipeline tasks, cutting pipeline runtime from 3 hours to 15 minutes',
-      'Overhauled categorisation algorithms, achieving a 20% improvement in classification accuracy',
+      'Refined categorisation algorithms, improving classification accuracy by 20% across key keyword categories',
       'Developed Streamlit and Metabase dashboards to surface internal insights for the wider team',
     ],
   },
