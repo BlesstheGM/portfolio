@@ -9,13 +9,15 @@ export default function About() {
 
       <div className="about-text">
         <p>
-          Backend developer proficient in <span className="hl">Python</span> and{' '}
-          <span className="hl">Java</span>. I ship APIs, design databases, and know my way
-          around WebSockets and real-time systems. At{' '}
-          <span className="hl-accent">Slant Research</span> I worked with AWS in an agile
-          environment with daily scrum meetings. Now I&apos;m building a{' '}
-          <span className="hl">FastAPI-powered REST backend</span> aggregating South African
-          retail prices.
+          Hi there :) I&apos;m a developer proficient in <span className="hl">Python</span> and{' '}
+          <span className="hl">Java</span>. I have been coding and building projects for the
+          past 3 years. I&apos;ve built API systems, designed databases, and developed
+          well-documented, Git-tracked full-stack applications. During my first internship as a
+          data scientist, I worked with <span className="hl-accent">AWS instances, S3 buckets,
+          and Lambdas</span>, uncovered analytics and insights in an Agile environment, and
+          participated in daily Scrum meetings. Currently I&apos;m building a{' '}
+          <span className="hl">REST API backend</span> for South African retail prices as a
+          side project. Outside of work, I enjoy playing chess competitively and gaming.
         </p>
       </div>
     </section>

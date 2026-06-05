@@ -148,6 +148,10 @@ a { text-decoration: none; color: inherit; }
 .t-line:nth-child(16) { animation-delay: 4.6s; }
 .t-line:nth-child(17) { animation-delay: 4.9s; }
 .t-line:nth-child(18) { animation-delay: 5.2s; }
+.t-line:nth-child(19) { animation-delay: 5.5s; }
+.t-line:nth-child(20) { animation-delay: 5.8s; }
+.t-line:nth-child(21) { animation-delay: 6.1s; }
+.t-line:nth-child(22) { animation-delay: 6.4s; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }

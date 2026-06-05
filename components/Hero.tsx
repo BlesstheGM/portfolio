@@ -31,16 +31,28 @@ export default function Hero() {
               <span className="t-cmd">cat about.txt</span>
             </div>
             <div className="t-line">
-              <span className="t-out">Backend developer proficient in Python and Java. I ship APIs, design databases,</span>
+              <span className="t-out">Hi there :) I&apos;m a developer proficient in Python and Java. I have been</span>
             </div>
             <div className="t-line">
-              <span className="t-out">and know my way around WebSockets and real-time systems. At Slant Research</span>
+              <span className="t-out">coding and building projects for the past 3 years. I&apos;ve built API systems,</span>
             </div>
             <div className="t-line">
-              <span className="t-out">I worked with AWS in an agile environment with daily scrum meetings. Now I&apos;m</span>
+              <span className="t-out">designed databases, and developed well-documented, Git-tracked full-stack</span>
             </div>
             <div className="t-line">
-              <span className="t-out">building a FastAPI-powered REST backend aggregating South African retail prices.</span>
+              <span className="t-out">applications. During my first internship as a data scientist, I worked with</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">AWS instances, S3 buckets, and Lambdas, uncovered analytics and insights in</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">an Agile environment, and participated in daily Scrum meetings. Currently</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">I&apos;m building a REST API backend for SA retail prices as a side project.</span>
+            </div>
+            <div className="t-line">
+              <span className="t-out">Outside of work, I enjoy playing chess competitively and gaming.</span>
             </div>
             <div className="t-line t-blank" />
             <div className="t-line">
