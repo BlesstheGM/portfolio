@@ -28,35 +28,6 @@ export default function Hero() {
             <div className="t-line t-blank" />
             <div className="t-line">
               <span className="t-prompt">$</span>
-              <span className="t-cmd">cat about.txt</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">Hi there :) I&apos;m a developer proficient in Python and Java. I have been</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">coding and building projects for the past 3 years. I&apos;ve built API systems,</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">designed databases, and developed well-documented, Git-tracked full-stack</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">applications. During my first internship as a data scientist, I worked with</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">AWS instances, S3 buckets, and Lambdas, uncovered analytics and insights in</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">an Agile environment, and participated in daily Scrum meetings. Currently</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">I&apos;m building a REST API backend for SA retail prices as a side project.</span>
-            </div>
-            <div className="t-line">
-              <span className="t-out">Outside of work, I enjoy playing chess competitively and gaming.</span>
-            </div>
-            <div className="t-line t-blank" />
-            <div className="t-line">
-              <span className="t-prompt">$</span>
               <span className="t-cmd">cat status.txt</span>
             </div>
             <div className="t-line">
