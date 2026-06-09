@@ -323,7 +323,6 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.84rem;
   line-height: 1.72;
   margin-bottom: 1rem;
-  flex: 1;
 }
 
 .project-highlights {
@@ -369,7 +368,7 @@ a { text-decoration: none; color: inherit; }
 .project-footer {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: auto;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
 }
