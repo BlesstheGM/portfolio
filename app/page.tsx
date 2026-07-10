@@ -22,6 +22,14 @@ const STARTERS = [
   'Running shoes for men',
 ];
 
+const HOW_IT_WORKS = [
+  { step: '1', title: 'Ask for anything', desc: 'e.g. "wireless earbuds under R1000" or "track order ORD-XXXXXX".' },
+  { step: '2', title: 'The agent searches live listings', desc: 'Real Google Shopping results, real prices, with links — not seeded demo data.' },
+  { step: '3', title: 'Pick an item, share your email', desc: 'Required so you\'re always reachable. WhatsApp updates are optional.' },
+  { step: '4', title: 'Order confirmed', desc: 'A real confirmation email is sent immediately (this is a demo checkout — no real payment).' },
+  { step: '5', title: 'Check anytime', desc: 'Ask "where\'s my order?" with the order ID whenever you like.' },
+];
+
 const FEATURES = [
   {
     icon: '🔍',
@@ -36,8 +44,35 @@ const FEATURES = [
   {
     icon: '📧',
     title: 'Real order emails',
-    desc: 'Every order gets a real confirmation email. Opt in for WhatsApp updates too, on a best-effort basis.',
+    desc: 'Every order gets a real confirmation email, sent via Resend. This is the guaranteed-delivery channel.',
   },
+  {
+    icon: '💬',
+    title: 'WhatsApp updates',
+    desc: 'Optional, best-effort order updates sent via Twilio — opt in with your number at checkout.',
+  },
+  {
+    icon: '🔎',
+    title: 'Order status lookup',
+    desc: 'Ask about any order ID anytime — no account or login needed.',
+  },
+];
+
+const STACK = [
+  { name: 'Next.js · TypeScript · React', desc: 'The app itself — App Router, server routes, client UI.' },
+  { name: 'Vercel AI SDK', desc: "Orchestrates the agent's tool-calling loop." },
+  { name: 'Google Gemini', desc: 'The model powering conversation and decisions.' },
+  { name: 'RapidAPI · Real-Time Product Search', desc: 'Live Google Shopping product data.' },
+  { name: 'Supabase (Postgres)', desc: 'Stores orders and conversation history.' },
+  { name: 'Resend', desc: 'Sends order confirmation emails.' },
+  { name: 'Twilio', desc: 'Sends optional WhatsApp order updates.' },
+];
+
+type TabKey = 'how' | 'features' | 'stack';
+const TABS: { key: TabKey; label: string }[] = [
+  { key: 'how', label: 'How it works' },
+  { key: 'features', label: 'Features' },
+  { key: 'stack', label: 'Tech stack' },
 ];
 
 /** Turns **bold** + "* bullet" markdown-lite into JSX without a markdown dependency. */
@@ -105,6 +140,7 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState<TabKey>('how');
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -157,17 +193,59 @@ export default function Home() {
       </nav>
 
       <main className="page">
-        <section className="hero">
-          <span className="pill">Real products · Real prices · Real WhatsApp updates</span>
-          <h1>
-            The AI agent that
-            <br />
-            actually shops with you.
-          </h1>
-          <p className="hero-sub">
-            Ask for anything — I search live product listings, compare prices, place a demo
-            order, and can text you WhatsApp updates. No forms, no menus. Just chat.
-          </p>
+        <section className="info">
+          <h1>How shop.agent works</h1>
+
+          <div className="tabs">
+            {TABS.map((t) => (
+              <button
+                key={t.key}
+                className={`tab-btn ${activeTab === t.key ? 'active' : ''}`}
+                onClick={() => setActiveTab(t.key)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="tab-panel">
+            {activeTab === 'how' && (
+              <ol className="steps">
+                {HOW_IT_WORKS.map((s) => (
+                  <li key={s.step}>
+                    <span className="step-num">{s.step}</span>
+                    <div>
+                      <div className="step-title">{s.title}</div>
+                      <div className="step-desc">{s.desc}</div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            )}
+
+            {activeTab === 'features' && (
+              <div className="feature-grid">
+                {FEATURES.map((f) => (
+                  <div key={f.title} className="feature-card">
+                    <div className="feature-icon">{f.icon}</div>
+                    <div className="feature-title">{f.title}</div>
+                    <div className="feature-desc">{f.desc}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {activeTab === 'stack' && (
+              <div className="stack-list">
+                {STACK.map((s) => (
+                  <div key={s.name} className="stack-row">
+                    <span className="stack-name">{s.name}</span>
+                    <span className="stack-desc">{s.desc}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </section>
 
         <section className="chat-wrap">
@@ -234,16 +312,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="features">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="feature-card">
-              <div className="feature-icon">{f.icon}</div>
-              <div className="feature-title">{f.title}</div>
-              <div className="feature-desc">{f.desc}</div>
-            </div>
-          ))}
-        </section>
-
         <footer className="site-footer">
           <p>Built by Blessing Hlongwane</p>
           <p className="site-footer-stack">Next.js · Vercel AI SDK · Gemini · Supabase · Twilio</p>
@@ -282,37 +350,87 @@ export default function Home() {
 
         .page { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
 
-        .hero { text-align: center; padding: 3.5rem 0 2.5rem; }
-        .pill {
-          display: inline-block;
-          background: var(--accent-soft);
-          color: var(--accent);
-          font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 0.01em;
-          padding: 0.4rem 0.9rem;
-          border-radius: 999px;
-          margin-bottom: 1.25rem;
-        }
-        .hero h1 {
-          font-size: clamp(1.8rem, 5vw, 2.75rem);
+        .info { padding: 2.5rem 0 2rem; }
+        .info h1 {
+          font-size: clamp(1.4rem, 3.5vw, 1.8rem);
           font-weight: 800;
-          letter-spacing: -0.02em;
-          line-height: 1.15;
-          background: linear-gradient(135deg, var(--ink), var(--accent-2));
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-        }
-        .hero-sub {
-          max-width: 560px;
-          margin: 1.1rem auto 0;
-          color: var(--muted);
-          font-size: 1.02rem;
-          line-height: 1.65;
+          letter-spacing: -0.01em;
+          margin-bottom: 1.25rem;
+          text-align: center;
         }
 
-        .chat-wrap { display: flex; justify-content: center; padding-bottom: 3rem; }
+        .tabs {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          margin-bottom: 1.25rem;
+        }
+        .tab-btn {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          color: var(--muted);
+          font-family: var(--font);
+          font-size: 0.82rem;
+          font-weight: 600;
+          padding: 0.45rem 1rem;
+          border-radius: 999px;
+          cursor: pointer;
+          transition: all 0.15s;
+        }
+        .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .tab-btn.active {
+          background: linear-gradient(135deg, var(--accent), var(--accent-2));
+          border-color: transparent;
+          color: #fff;
+        }
+
+        .tab-panel {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 18px;
+          padding: 1.5rem;
+        }
+
+        .steps { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .steps li { display: flex; gap: 0.9rem; align-items: flex-start; }
+        .step-num {
+          flex-shrink: 0;
+          width: 26px; height: 26px;
+          border-radius: 50%;
+          background: var(--accent-soft);
+          color: var(--accent);
+          font-size: 0.78rem;
+          font-weight: 800;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .step-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.15rem; }
+        .step-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+
+        .feature-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+        .feature-card { padding: 0.25rem; }
+        .feature-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .feature-title { font-weight: 700; font-size: 0.88rem; margin-bottom: 0.3rem; }
+        .feature-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+        .stack-list { display: flex; flex-direction: column; gap: 0.7rem; }
+        .stack-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          gap: 1rem;
+          padding: 0.55rem 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .stack-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .stack-name { font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+        .stack-desc { font-size: 0.8rem; color: var(--muted); text-align: right; }
+
+        .chat-wrap { display: flex; justify-content: center; padding: 2.5rem 0 3rem; }
         .chat-card {
           width: 100%;
           max-width: 640px;
@@ -484,22 +602,6 @@ export default function Home() {
         .send-btn:hover:not(:disabled) { transform: scale(1.06); }
         .send-btn:disabled { opacity: 0.4; cursor: default; }
 
-        .features {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1rem;
-          padding-bottom: 3rem;
-        }
-        .feature-card {
-          background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: 16px;
-          padding: 1.3rem 1.1rem;
-        }
-        .feature-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
-        .feature-title { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.35rem; }
-        .feature-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
-
         .site-footer {
           text-align: center;
           color: var(--muted);
@@ -510,7 +612,9 @@ export default function Home() {
         .site-footer-stack { margin-top: 0.3rem; font-size: 0.75rem; opacity: 0.8; }
 
         @media (max-width: 640px) {
-          .features { grid-template-columns: 1fr; }
+          .feature-grid { grid-template-columns: 1fr; }
+          .stack-row { flex-direction: column; gap: 0.15rem; }
+          .stack-desc { text-align: left; }
           .chat-messages { min-height: 320px; }
           .bubble { max-width: 85%; }
         }
