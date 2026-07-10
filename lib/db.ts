@@ -31,6 +31,7 @@ function newShortId() {
 
 export async function createOrder(input: {
   customerName?: string;
+  customerEmail: string;
   productTitle: string;
   price: number | null;
   currency: string | null;
@@ -44,6 +45,7 @@ export async function createOrder(input: {
     .insert({
       short_id: shortId,
       customer_name: input.customerName ?? null,
+      customer_email: input.customerEmail,
       product_title: input.productTitle,
       price: input.price,
       currency: input.currency ?? 'ZAR',
@@ -60,6 +62,7 @@ export async function createOrder(input: {
 export type Order = {
   short_id: string;
   customer_name: string | null;
+  customer_email: string | null;
   product_title: string;
   price: number | null;
   currency: string | null;

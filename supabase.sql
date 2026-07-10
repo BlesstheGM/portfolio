@@ -14,6 +14,7 @@ create table if not exists orders (
   quantity int not null default 1,
   product_url text,
   whatsapp_number text,
+  customer_email text,
   status text not null default 'processing',
   eta text,
   created_at timestamptz not null default now()
@@ -21,6 +22,7 @@ create table if not exists orders (
 
 -- Safe to re-run: adds the column if this table already existed without it.
 alter table orders add column if not exists whatsapp_number text;
+alter table orders add column if not exists customer_email text;
 
 create table if not exists conversations (
   id uuid primary key default gen_random_uuid(),

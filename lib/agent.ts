@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { searchProducts } from './catalog';
 import { createOrder, getOrderByShortId } from './db';
 import { sendWhatsAppMessage } from './whatsapp';
+import { sendOrderConfirmationEmail, notifyAdminOfNewOrder } from './email';
 
 /**
  * Single agent core shared by both surfaces (web chat + WhatsApp webhook).
@@ -19,11 +20,13 @@ export const SYSTEM_PROMPT = `You are a shopping concierge for a demo storefront
 You help customers find real products, place a demo order, and check on an existing order.
 
 Rules:
-- Product results come from a live product search (real listings, real prices, sourced from Google Shopping via RapidAPI). Always call the search tool rather than inventing products or prices.
+- Product results come from a live product search (real listings, real prices, sourced from Google Shopping via RapidAPI). When describing this to a customer, be specific: say you're searching live Google Shopping listings, not just "real products." Always call the search tool rather than inventing products or prices.
 - Prices may be in various currencies depending on the listing; state the currency you see, don't assume ZAR unless that's what the listing shows.
 - Every product you list MUST include its link as a markdown link, formatted exactly like this: **Product Name** — R249 [View](https://...). Never list a product without its link if the search tool returned one.
-- When a customer wants to buy something, confirm the exact item and price with them. Then, before calling placeOrder, ask once: "Want order updates sent to your WhatsApp? If so, share your number (with country code)." This is optional — if they decline or don't give a number, place the order anyway without one.
-- Call placeOrder once you have their confirmation (and their WhatsApp number, if they gave one). This is a demo checkout — orders are recorded but not real purchases. Say so plainly the first time you place one.
+- When a customer wants to buy something, confirm the exact item and price with them. Then collect their EMAIL ADDRESS — this is required, not optional, since it's the one channel guaranteed to reach them. Do not call placeOrder without an email.
+- After you have the email, ask once (optional, don't push): "Want order updates on WhatsApp too? Share your number if so." If they decline or skip it, proceed without one.
+- Call placeOrder once you have their confirmation and email (and WhatsApp number, if given). This is a demo checkout — orders are recorded but not real purchases. Say so plainly the first time you place one. Tell them a confirmation email is on its way.
+- If the tool result says the WhatsApp send failed, explain it lightly and honestly — something like: their number isn't on the guest list for Blessing's Twilio free-tier WhatsApp sandbox, so you sent a demo copy to Blessing's own number instead to prove it works, and they're welcome to message Blessing directly to get their number added. Make clear their order is still fully confirmed via email regardless.
 - When a customer asks about an order, call getOrderStatus with the order ID they give you (format: ORD-XXXXXX).
 - Keep replies short and conversational.
 - If a tool call fails or returns nothing useful, say so honestly rather than guessing.`;
@@ -55,13 +58,14 @@ export function getTools(): ToolSet {
 
     placeOrder: tool({
       description:
-        'Record a demo order for a product the customer has decided to buy. Always confirm the item, price, and (once) offer WhatsApp updates before calling this.',
+        'Record a demo order for a product the customer has decided to buy. Requires their email (always collect it first). Always confirm the item and price before calling this.',
       inputSchema: z.object({
         productTitle: z.string(),
         price: z.number().nullable(),
         currency: z.string().nullable(),
         quantity: z.number().int().min(1).default(1),
         customerName: z.string().optional(),
+        customerEmail: z.string().describe('Customer email address — required, always collect before calling this tool.'),
         productUrl: z.string().optional(),
         whatsappNumber: z
           .string()
@@ -70,18 +74,49 @@ export function getTools(): ToolSet {
       }),
       execute: async (input) => {
         const shortId = await createOrder(input);
+        const orderDetails = {
+          orderId: shortId,
+          productTitle: input.productTitle,
+          price: input.price,
+          currency: input.currency,
+          quantity: input.quantity,
+        };
+
+        let emailSent = false;
+        try {
+          await sendOrderConfirmationEmail(input.customerEmail, orderDetails);
+          emailSent = true;
+        } catch (err) {
+          console.error('Order confirmation email failed', err);
+        }
+
+        // Silent — never surfaced to the model/customer.
+        notifyAdminOfNewOrder({
+          ...orderDetails,
+          customerEmail: input.customerEmail,
+          whatsappNumber: input.whatsappNumber,
+        }).catch((err) => console.error('Admin notification email failed', err));
 
         let whatsappSent = false;
+        let whatsappFallback = false;
         if (input.whatsappNumber) {
+          const waMessage =
+            `Order confirmed! ${input.productTitle} (${shortId}) — ${input.currency ?? ''} ${input.price ?? 'N/A'}. ` +
+            `Status: processing, ETA 3-5 business days. This is a demo storefront, no real payment was taken.`;
           try {
-            await sendWhatsAppMessage(
-              input.whatsappNumber,
-              `Order confirmed! ${input.productTitle} (${shortId}) — ${input.currency ?? ''} ${input.price ?? 'N/A'}. ` +
-                `Status: processing, ETA 3-5 business days. This is a demo storefront, no real payment was taken.`,
-            );
+            await sendWhatsAppMessage(input.whatsappNumber, waMessage);
             whatsappSent = true;
           } catch (err) {
-            console.error('WhatsApp send failed', err);
+            console.error('WhatsApp send failed, falling back to admin number', err);
+            const adminNumber = process.env.ADMIN_WHATSAPP_NUMBER;
+            if (adminNumber) {
+              try {
+                await sendWhatsAppMessage(adminNumber, `[Demo fallback — customer number unreachable] ${waMessage}`);
+                whatsappFallback = true;
+              } catch (fallbackErr) {
+                console.error('WhatsApp fallback send also failed', fallbackErr);
+              }
+            }
           }
         }
 
@@ -89,9 +124,19 @@ export function getTools(): ToolSet {
           orderId: shortId,
           status: 'processing',
           eta: '3-5 business days',
+          emailSent,
           whatsappSent,
-          message: `Order ${shortId} recorded (demo checkout — no real payment was taken).${
-            input.whatsappNumber ? (whatsappSent ? ' WhatsApp confirmation sent.' : ' WhatsApp send failed.') : ''
+          whatsappFallback,
+          message: `Order ${shortId} recorded (demo checkout — no real payment was taken). Confirmation email ${
+            emailSent ? 'sent' : 'failed to send'
+          }.${
+            input.whatsappNumber
+              ? whatsappSent
+                ? ' WhatsApp confirmation sent.'
+                : whatsappFallback
+                  ? ' WhatsApp to the customer number failed (not on the Twilio sandbox guest list) — sent a demo copy to Blessing\'s own number instead.'
+                  : ' WhatsApp send failed.'
+              : ''
           }`,
         };
       },

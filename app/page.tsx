@@ -26,7 +26,7 @@ const FEATURES = [
   {
     icon: '🔍',
     title: 'Real product search',
-    desc: 'Live listings and live prices from real retailers — not seeded demo data.',
+    desc: 'Live Google Shopping listings and live prices from real retailers — not seeded demo data.',
   },
   {
     icon: '🤖',
@@ -34,9 +34,9 @@ const FEATURES = [
     desc: 'Built with the Vercel AI SDK. The agent decides when to search, place an order, or check a status.',
   },
   {
-    icon: '💬',
-    title: 'WhatsApp updates',
-    desc: 'Opt in during checkout and get a real order confirmation sent straight to your phone.',
+    icon: '📧',
+    title: 'Real order emails',
+    desc: 'Every order gets a real confirmation email. Opt in for WhatsApp updates too, on a best-effort basis.',
   },
 ];
 
@@ -99,7 +99,7 @@ export default function Home() {
     {
       role: 'assistant',
       content:
-        "Hey — I'm a shopping concierge agent. I search real, live products and can place a demo order or check one for you. What are you looking for?",
+        "Hey — I'm a shopping concierge agent. I search live Google Shopping listings (real retailers, real prices) and can place a demo order or check one for you. What are you looking for?",
     },
   ]);
   const [input, setInput] = useState('');
