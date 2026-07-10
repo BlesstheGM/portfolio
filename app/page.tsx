@@ -72,15 +72,25 @@ function renderRich(text: string): ReactNode {
   return <>{blocks}</>;
 }
 
+const LINK_RE = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/;
+const BOLD_RE = /\*\*([^*]+)\*\*/;
+const INLINE_RE = /(\[[^\]]+\]\(https?:\/\/[^\s)]+\)|\*\*[^*]+\*\*)/g;
+
 function renderInline(text: string): ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
-  return parts.map((part, i) =>
-    part.startsWith('**') && part.endsWith('**') ? (
-      <strong key={i}>{part.slice(2, -2)}</strong>
-    ) : (
-      <span key={i}>{part}</span>
-    ),
-  );
+  const parts = text.split(INLINE_RE).filter(Boolean);
+  return parts.map((part, i) => {
+    const link = part.match(LINK_RE);
+    if (link) {
+      return (
+        <a key={i} href={link[2]} target="_blank" rel="noopener noreferrer" className="msg-link">
+          {link[1]} ↗
+        </a>
+      );
+    }
+    const bold = part.match(BOLD_RE);
+    if (bold) return <strong key={i}>{bold[1]}</strong>;
+    return <span key={i}>{part}</span>;
+  });
 }
 
 export default function Home() {
@@ -381,6 +391,13 @@ export default function Home() {
           border-bottom-left-radius: 4px;
           color: var(--ink);
         }
+        .msg-link {
+          color: var(--accent);
+          font-weight: 600;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
+        .bubble.user .msg-link { color: #fff; text-decoration-color: rgba(255,255,255,0.6); }
         .bubble.user {
           background: linear-gradient(135deg, var(--accent), var(--accent-2));
           color: #fff;
