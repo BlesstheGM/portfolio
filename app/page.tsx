@@ -99,7 +99,7 @@ export default function Home() {
     {
       role: 'assistant',
       content:
-        "Hey — I'm a shopping concierge agent. I search live Google Shopping listings (real retailers, real prices) and can place a demo order or check one for you. What are you looking for?",
+        "Hey — I'm a shopping agent. I search live Google Shopping listings (real retailers, real prices) and can place a demo order or check one for you. What are you looking for?",
     },
   ]);
   const [input, setInput] = useState('');
@@ -160,7 +160,7 @@ export default function Home() {
         <section className="hero">
           <span className="pill">Real products · Real prices · Real WhatsApp updates</span>
           <h1>
-            The AI concierge that
+            The AI agent that
             <br />
             actually shops with you.
           </h1>

@@ -16,7 +16,7 @@ import { sendOrderConfirmationEmail, notifyAdminOfNewOrder } from './email';
 // GEMINI_MODEL in the environment instead of editing code.
 export const model = google(process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite');
 
-export const SYSTEM_PROMPT = `You are a shopping concierge for a demo storefront built by Blessing Hlongwane.
+export const SYSTEM_PROMPT = `You are a shopping agent for a demo storefront built by Blessing Hlongwane.
 You help customers find real products, place a demo order, and check on an existing order.
 
 Rules:
