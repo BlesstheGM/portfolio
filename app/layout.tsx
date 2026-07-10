@@ -2,14 +2,23 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Blessing Hlongwane — Backend Developer',
+  title: 'shop.agent — AI Shopping Concierge by Blessing Hlongwane',
   description:
-    'Portfolio of Blessing Hlongwane — Backend Developer building REST APIs, data pipelines, and real-time systems.',
-  keywords: ['Backend Developer', 'Python', 'Java', 'FastAPI', 'REST APIs', 'AWS', 'Cape Town', 'Blessing Hlongwane'],
+    'A live AI shopping concierge: real product search, tool-calling agent, and WhatsApp order updates. Built with Next.js, TypeScript, the Vercel AI SDK, Gemini, Supabase, and Twilio.',
+  keywords: [
+    'AI Agent',
+    'Tool Calling',
+    'Vercel AI SDK',
+    'Next.js',
+    'TypeScript',
+    'Supabase',
+    'WhatsApp API',
+    'Blessing Hlongwane',
+  ],
   authors: [{ name: 'Blessing Hlongwane', url: 'https://github.com/BlesstheGM' }],
   openGraph: {
-    title: 'Blessing Hlongwane — Backend Developer',
-    description: 'Backend Developer building REST APIs, data pipelines, and real-time systems.',
+    title: 'shop.agent — AI Shopping Concierge by Blessing Hlongwane',
+    description: 'Real product search, agentic tool-calling, and WhatsApp order updates — live demo.',
     type: 'website',
   },
 };
