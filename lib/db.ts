@@ -6,16 +6,19 @@ export type Channel = 'web' | 'whatsapp';
 type ConversationRow = { role: ChatRole; content: string; created_at: string };
 
 export async function getHistory(channel: Channel, externalId: string, limit = 20): Promise<ConversationRow[]> {
+  // Fetch the MOST RECENT messages (descending + limit), then flip back to
+  // chronological order. Ascending + limit would return the oldest 20 forever,
+  // silently dropping the current message once a session outgrows the window.
   const { data, error } = await getSupabaseAdmin()
     .from('conversations')
     .select('*')
     .eq('channel', channel)
     .eq('external_id', externalId)
-    .order('created_at', { ascending: true })
+    .order('created_at', { ascending: false })
     .limit(limit);
 
   if (error) throw error;
-  return (data ?? []) as ConversationRow[];
+  return ((data ?? []) as ConversationRow[]).reverse();
 }
 
 export async function saveMessage(channel: Channel, externalId: string, role: ChatRole, content: string) {
