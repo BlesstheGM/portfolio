@@ -6,7 +6,7 @@ type Msg = { role: 'user' | 'assistant'; content: string };
 
 const STARTERS = [
   'Wireless earbuds under R1000',
-  'Status of order ORD-ABC123',
+  'Coffee machines under R2000',
   'Running shoes for men',
 ];
 
