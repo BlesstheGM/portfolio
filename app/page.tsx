@@ -136,8 +136,12 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: trimmed, sessionId }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Request failed');
+      // Platform errors (e.g. a Vercel timeout) return plain text, not JSON —
+      // parsing blindly would surface a raw "Unexpected token" to the user.
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data) {
+        throw new Error(data?.error || 'That took too long or something broke — please try again.');
+      }
       setMessages((m) => [...m, { role: 'assistant', content: data.reply }]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');

@@ -2,7 +2,9 @@ import { generateText, isStepCount } from 'ai';
 import { model, getTools, SYSTEM_PROMPT } from '@/lib/agent';
 import { saveMessage, getHistory } from '@/lib/db';
 
-export const maxDuration = 30;
+// Gemini free tier can have slow spells (plus SDK-internal retries) — give the
+// full turn room to finish rather than dying at Vercel's default limit.
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
