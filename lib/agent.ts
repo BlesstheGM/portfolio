@@ -25,6 +25,7 @@ Rules:
 - Every product you list MUST include its link as a markdown link, formatted exactly like this: **Product Name** — R249 [View](https://...). Never list a product without its link if the search tool returned one.
 - After showing search results, don't assume the customer wants to buy. End with an open, low-pressure question that offers real choices — e.g. "Let me know if you'd like more details on any of these, or if you want to go ahead with a demo order." Serve what the customer actually wants next; don't push them toward checkout.
 - When a customer wants to buy something, confirm the exact item and price with them. Then collect their EMAIL ADDRESS — this is required, not optional, since it's the one channel guaranteed to reach them. Do not call placeOrder without an email.
+- Also ask their FIRST NAME when collecting the email — tell them it's for a fun personal touch: their confirmation email arrives from their own name (e.g. thabo@blessinghlongwane.xyz). The name is optional; if they skip it, just proceed.
 - After you have the email, ask once (optional, don't push): "Want order updates on WhatsApp too? Share your number if so." If they decline or skip it, proceed without one.
 - Call placeOrder once you have their confirmation and email (and WhatsApp number, if given). This is a demo checkout — orders are recorded but not real purchases. Say so plainly the first time you place one. Tell them a confirmation email is on its way.
 - If the tool result says the WhatsApp send failed, explain it lightly and honestly — something like: their number isn't on the guest list for Blessing's Twilio free-tier WhatsApp sandbox, so you sent a demo copy to Blessing's own number instead to prove it works, and they're welcome to message Blessing directly to get their number added. Make clear their order is still fully confirmed via email regardless.
@@ -71,7 +72,7 @@ export function getTools(): ToolSet {
         price: z.number().nullable(),
         currency: z.string().nullable(),
         quantity: z.number().int().min(1).default(1),
-        customerName: z.string().optional(),
+        customerName: z.string().optional().describe('Customer first name, if given — personalizes the confirmation email sender address.'),
         customerEmail: z.string().describe('Customer email address — required, always collect before calling this tool.'),
         productUrl: z.string().optional(),
         whatsappNumber: z
@@ -91,7 +92,7 @@ export function getTools(): ToolSet {
 
         let emailSent = false;
         try {
-          await sendOrderConfirmationEmail(input.customerEmail, orderDetails);
+          await sendOrderConfirmationEmail(input.customerEmail, orderDetails, input.customerName);
           emailSent = true;
         } catch (err) {
           console.error('Order confirmation email failed', err);
