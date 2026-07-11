@@ -1,6 +1,6 @@
 # 🛍️ shop.agent
 
-**An AI shopping agent that holds a real sales conversation end to end** — live product search, checkout, confirmation emails, WhatsApp updates — built and deployed as a working demo.
+**An AI shopping agent that holds a real sales conversation end to end** — live product search, checkout, confirmation emails, WhatsApp updates — built and deployed as a working demo **in 5 hours**.
 
 **Live:** [blessinghlongwane.xyz](https://blessinghlongwane.xyz)
 
