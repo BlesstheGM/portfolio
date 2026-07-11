@@ -34,7 +34,10 @@ export async function POST(req: Request) {
   try {
     await saveMessage('whatsapp', from, 'user', text);
     const history = await getHistory('whatsapp', from, 20);
-    const conversation = history.map((h) => ({ role: h.role, content: h.content }));
+    // Empty messages poison Gemini into returning an empty response — never send them.
+    const conversation = history
+      .filter((h) => h.content.trim().length > 0)
+      .map((h) => ({ role: h.role, content: h.content }));
 
     const result = await generateText({
       model,
@@ -44,8 +47,11 @@ export async function POST(req: Request) {
       stopWhen: isStepCount(5),
     });
 
-    await saveMessage('whatsapp', from, 'assistant', result.text);
-    twiml.message(result.text || "I'm here — what are you looking for?");
+    // Never persist an empty assistant turn; it would poison every later request in this session.
+    if (result.text.trim()) {
+      await saveMessage('whatsapp', from, 'assistant', result.text);
+    }
+    twiml.message(result.text.trim() || "I'm here — what are you looking for?");
   } catch (err) {
     console.error('whatsapp route error', err);
     twiml.message('Something went wrong on my end — please try again in a moment.');

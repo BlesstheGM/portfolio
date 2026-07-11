@@ -17,7 +17,10 @@ export async function POST(req: Request) {
     const history = await getHistory('web', sessionId, 20).catch(() => [
       { role: 'user' as const, content: message, created_at: '' },
     ]);
-    const conversation = history.map((h) => ({ role: h.role, content: h.content }));
+    // Empty messages poison Gemini into returning an empty response — never send them.
+    const conversation = history
+      .filter((h) => h.content.trim().length > 0)
+      .map((h) => ({ role: h.role, content: h.content }));
 
     const result = await generateText({
       model,
@@ -27,16 +30,16 @@ export async function POST(req: Request) {
       stopWhen: isStepCount(5),
     });
 
-    console.log('generateText result:', {
-      text: result.text,
-      steps: result.steps?.length,
-      firstStep: result.steps?.[0],
-      usage: result.usage
-    });
+    const reply =
+      result.text.trim() ||
+      "Sorry — I glitched on that one. Could you send that again?";
 
-    await saveMessage('web', sessionId, 'assistant', result.text).catch(() => {});
+    // Never persist an empty assistant turn; it would poison every later request in this session.
+    if (result.text.trim()) {
+      await saveMessage('web', sessionId, 'assistant', result.text).catch(() => {});
+    }
 
-    return Response.json({ reply: result.text });
+    return Response.json({ reply });
   } catch (err) {
     console.error('chat route error', err);
     return Response.json({ error: 'Something went wrong. Please try again.' }, { status: 500 });
