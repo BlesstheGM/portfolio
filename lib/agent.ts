@@ -42,18 +42,24 @@ export function getTools(): ToolSet {
         maxResults: z.number().int().min(1).max(10).optional(),
       }),
       execute: async ({ query, maxResults }) => {
-        const results = await searchProducts(query, { limit: maxResults ?? 5 });
-        if (results.length === 0) return { found: false, message: 'No products found for that search.' };
-        return {
-          found: true,
-          products: results.map((p) => ({
-            title: p.title,
-            price: p.price,
-            currency: p.currency,
-            url: p.url,
-            source: p.source,
-          })),
-        };
+        try {
+          const results = await searchProducts(query, { limit: maxResults ?? 5 });
+          console.log('searchProducts returned:', results.length, 'products');
+          if (results.length === 0) return { found: false, message: 'No products found for that search.' };
+          return {
+            found: true,
+            products: results.map((p) => ({
+              title: p.title,
+              price: p.price,
+              currency: p.currency,
+              url: p.url,
+              source: p.source,
+            })),
+          };
+        } catch (err) {
+          console.error('searchProducts error:', err);
+          return { found: false, message: `Search failed: ${err instanceof Error ? err.message : 'Unknown error'}` };
+        }
       },
     }),
 
