@@ -39,7 +39,7 @@ const FEATURES = [
   {
     icon: '✉️',
     title: 'Personalized email sender',
-    desc: 'Tell the agent your name and your order confirmation arrives from you@blessinghlongwane.xyz — dynamic sender addresses via Resend on a verified domain.',
+    desc: 'Tell the agent your name and your order confirmation arrives from [your name]@blessinghlongwane.xyz — dynamic sender addresses via Resend on a verified domain.',
   },
 ];
 
