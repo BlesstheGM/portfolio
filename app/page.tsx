@@ -154,7 +154,7 @@ export default function Home() {
             <span className="nav-mark">🛍️</span> shop.agent
           </div>
           <div className="nav-links">
-            <a href="https://github.com/BlesstheGM" target="_blank" rel="noreferrer">
+            <a href="https://github.com/BlesstheGM/portfolio" target="_blank" rel="noreferrer">
               GitHub
             </a>
             <span className="nav-badge">🟢 Live demo</span>
