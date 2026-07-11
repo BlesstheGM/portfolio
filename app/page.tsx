@@ -4,18 +4,6 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
-const SESSION_KEY = 'shop_session_id';
-
-function getSessionId(): string {
-  if (typeof window === 'undefined') return '';
-  let id = window.localStorage.getItem(SESSION_KEY);
-  if (!id) {
-    id = crypto.randomUUID();
-    window.localStorage.setItem(SESSION_KEY, id);
-  }
-  return id;
-}
-
 const STARTERS = [
   'Wireless earbuds under R1000',
   'Status of order ORD-ABC123',
@@ -123,7 +111,10 @@ export default function Home() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setSessionId(getSessionId());
+    // Fresh session every page load: what you see is all the agent remembers.
+    // A persisted id would let the agent recall a previous visitor's details
+    // (email, orders) in a chat that looks brand new.
+    setSessionId(crypto.randomUUID());
   }, []);
 
   useEffect(() => {
