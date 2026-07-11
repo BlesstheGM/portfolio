@@ -136,13 +136,44 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: trimmed, sessionId }),
       });
-      // Platform errors (e.g. a Vercel timeout) return plain text, not JSON —
-      // parsing blindly would surface a raw "Unexpected token" to the user.
-      const data = await res.json().catch(() => null);
-      if (!res.ok || !data) {
-        throw new Error(data?.error || 'That took too long or something broke — please try again.');
+      if (!res.ok || !res.body) {
+        // Error responses are JSON from our route, plain text from the platform
+        // (e.g. a Vercel timeout) — handle both without a raw parse error.
+        const raw = await res.text().catch(() => '');
+        let msg = 'That took too long or something broke — please try again.';
+        try {
+          const parsed = JSON.parse(raw) as { error?: string };
+          if (parsed?.error) msg = parsed.error;
+        } catch {}
+        throw new Error(msg);
       }
-      setMessages((m) => [...m, { role: 'assistant', content: data.reply }]);
+
+      // The reply streams as plain text — append a bubble on the first chunk
+      // and grow it as tokens arrive.
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = '';
+      let started = false;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        if (!acc.trim()) continue;
+        if (!started) {
+          started = true;
+          setMessages((m) => [...m, { role: 'assistant', content: acc }]);
+        } else {
+          setMessages((m) => {
+            const copy = m.slice();
+            copy[copy.length - 1] = { role: 'assistant', content: acc };
+            return copy;
+          });
+        }
+      }
+      acc += decoder.decode();
+      if (!acc.trim()) {
+        setMessages((m) => [...m, { role: 'assistant', content: 'Sorry — I glitched on that one. Could you send that again?' }]);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
     } finally {
@@ -187,7 +218,7 @@ export default function Home() {
                   {m.role === 'user' && <div className="msg-avatar user">🧑</div>}
                 </div>
               ))}
-              {loading && (
+              {loading && messages[messages.length - 1]?.role !== 'assistant' && (
                 <div className="msg-row assistant">
                   <div className="msg-avatar">🛍️</div>
                   <div className="bubble assistant typing-bubble">
