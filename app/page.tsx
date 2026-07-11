@@ -79,6 +79,33 @@ const LINK_RE = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/;
 const BOLD_RE = /\*\*([^*]+)\*\*/;
 const INLINE_RE = /(\[[^\]]+\]\(https?:\/\/[^\s)]+\)|\*\*[^*]+\*\*)/g;
 
+/**
+ * While a reply is streaming, the tail of the text is often a half-written
+ * markdown token (`**Redmi Bu` or `[View](https://takealo`). Rendering that
+ * raw looks broken and then "snaps" into formatting — so trim the incomplete
+ * token from the visible text until it finishes arriving.
+ */
+function trimIncompleteMarkdown(text: string): string {
+  let out = text;
+
+  // Unfinished link: a trailing "[...", "[...]" or "[...](..." with no closing ")".
+  const linkStart = out.lastIndexOf('[');
+  if (linkStart !== -1) {
+    const tail = out.slice(linkStart);
+    if (/^\[[^\]]*$/.test(tail) || /^\[[^\]]*\]$/.test(tail) || /^\[[^\]]*\]\([^)]*$/.test(tail)) {
+      out = out.slice(0, linkStart);
+    }
+  }
+
+  // Unfinished bold: an odd number of "**" markers means the last one is open.
+  const boldMarkers = out.match(/\*\*/g);
+  if (boldMarkers && boldMarkers.length % 2 === 1) {
+    out = out.slice(0, out.lastIndexOf('**'));
+  }
+
+  return out;
+}
+
 function renderInline(text: string): ReactNode {
   const parts = text.split(INLINE_RE).filter(Boolean);
   return parts.map((part, i) => {
@@ -118,7 +145,9 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // Instant scroll while streaming — smooth scrolling can't keep up with
+    // per-token updates and ends up lagging behind the text.
+    bottomRef.current?.scrollIntoView({ behavior: loading ? 'auto' : 'smooth', block: 'nearest' });
   }, [messages, loading]);
 
   async function send(text: string) {
@@ -211,13 +240,18 @@ export default function Home() {
             </div>
 
             <div className="chat-messages">
-              {messages.map((m, i) => (
-                <div key={i} className={`msg-row ${m.role}`}>
-                  {m.role === 'assistant' && <div className="msg-avatar">🛍️</div>}
-                  <div className={`bubble ${m.role}`}>{renderRich(m.content)}</div>
-                  {m.role === 'user' && <div className="msg-avatar user">🧑</div>}
-                </div>
-              ))}
+              {messages.map((m, i) => {
+                const isStreaming = loading && i === messages.length - 1 && m.role === 'assistant';
+                return (
+                  <div key={i} className={`msg-row ${m.role}`}>
+                    {m.role === 'assistant' && <div className="msg-avatar">🛍️</div>}
+                    <div className={`bubble ${m.role}${isStreaming ? ' streaming' : ''}`}>
+                      {renderRich(isStreaming ? trimIncompleteMarkdown(m.content) : m.content)}
+                    </div>
+                    {m.role === 'user' && <div className="msg-avatar user">🧑</div>}
+                  </div>
+                );
+              })}
               {loading && messages[messages.length - 1]?.role !== 'assistant' && (
                 <div className="msg-row assistant">
                   <div className="msg-avatar">🛍️</div>
@@ -435,6 +469,20 @@ export default function Home() {
         .bubble p:last-child { margin-bottom: 0; }
         .msg-list { margin: 0.3rem 0; padding-left: 1.1rem; }
         .msg-list li { margin-bottom: 0.2rem; }
+
+        .bubble.streaming > p:last-child::after,
+        .bubble.streaming > ul:last-child > li:last-child::after {
+          content: '';
+          display: inline-block;
+          width: 3px;
+          height: 1em;
+          margin-left: 3px;
+          border-radius: 2px;
+          background: var(--accent);
+          vertical-align: text-bottom;
+          animation: blink 0.9s steps(2) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
 
         .typing-bubble { display: flex; gap: 0.3rem; align-items: center; padding: 0.75rem 1rem; }
         .typing-bubble .dot {
