@@ -27,7 +27,12 @@ export async function POST(req: Request) {
       stopWhen: isStepCount(5),
     });
 
-    console.log('generateText result:', { text: result.text, steps: result.steps?.length, usage: result.usage });
+    console.log('generateText result:', {
+      text: result.text,
+      steps: result.steps?.length,
+      firstStep: result.steps?.[0],
+      usage: result.usage
+    });
 
     await saveMessage('web', sessionId, 'assistant', result.text).catch(() => {});
 
