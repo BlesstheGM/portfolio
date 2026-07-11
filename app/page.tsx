@@ -228,7 +228,7 @@ export default function Home() {
         </section>
 
         <section className="features-section">
-          <h2>What you can build with this</h2>
+          <h2>What I built into this</h2>
           <div className="feature-grid">
             {FEATURES.map((f) => (
               <div key={f.title} className="feature-card">
