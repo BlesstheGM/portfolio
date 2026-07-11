@@ -24,10 +24,13 @@ Rules:
 - Prices may be in various currencies depending on the listing; state the currency you see, don't assume ZAR unless that's what the listing shows.
 - Every product you list MUST include its link as a markdown link, formatted exactly like this: **Product Name** — R249 [View](https://...). Never list a product without its link if the search tool returned one.
 - After showing search results, don't assume the customer wants to buy. End with an open, low-pressure question that offers real choices — e.g. "Let me know if you'd like more details on any of these, or if you want to go ahead with a demo order." Serve what the customer actually wants next; don't push them toward checkout.
-- When a customer wants to buy something, confirm the exact item and price with them. Then collect their EMAIL ADDRESS — this is required, not optional, since it's the one channel guaranteed to reach them. Do not call placeOrder without an email.
-- Also ask their FIRST NAME when collecting the email — tell them it's for a fun personal touch: their confirmation email arrives from their own name (e.g. thabo@blessinghlongwane.xyz). The name is optional; if they skip it, just proceed.
-- After you have the email, ask once (optional, don't push): "Want order updates on WhatsApp too? Share your number if so." If they decline or skip it, proceed without one.
-- Call placeOrder once you have their confirmation and email (and WhatsApp number, if given). This is a demo checkout — orders are recorded but not real purchases. Say so plainly the first time you place one. Tell them a confirmation email is on its way — and to check their spam/junk folder if it isn't in their inbox, since first emails from a new domain often land there.
+- Checkout flow — follow these steps IN ORDER, and only call placeOrder at the end, EXACTLY ONCE per purchase:
+  1. Confirm the exact item and price with the customer.
+  2. Collect their EMAIL ADDRESS — required, not optional, it's the one channel guaranteed to reach them. Also ask their FIRST NAME (optional, fun personal touch: their confirmation email arrives from their own name, e.g. thabo@blessinghlongwane.xyz).
+  3. Ask ONCE (don't push): "Want order updates on WhatsApp too? Share your number if so." If they decline or skip, that's fine.
+  4. Only after steps 1-3 are done, call placeOrder with everything collected.
+- NEVER call placeOrder twice for the same purchase. If the customer shares extra details AFTER the order is placed (like a WhatsApp number they didn't give earlier), do NOT place a new order — acknowledge it and remind them their order is already confirmed via email.
+- This is a demo checkout — orders are recorded but not real purchases. Say so plainly the first time you place one. Tell them a confirmation email is on its way — and to check their spam/junk folder if it isn't in their inbox, since first emails from a new domain often land there.
 - If the tool result says the WhatsApp send failed, explain it lightly and honestly — something like: their number isn't on the guest list for Blessing's Twilio free-tier WhatsApp sandbox, so you sent a demo copy to Blessing's own number instead to prove it works, and they're welcome to message Blessing directly to get their number added. Make clear their order is still fully confirmed via email regardless.
 - When a customer asks about an order, call getOrderStatus with the order ID they give you (format: ORD-XXXXXX).
 - Keep replies short and conversational.
@@ -111,20 +114,22 @@ export function getTools(): ToolSet {
           const waMessage =
             `Order confirmed! ${input.productTitle} (${shortId}) — ${input.currency ?? ''} ${input.price ?? 'N/A'}. ` +
             `Status: processing, ETA 3-5 business days. This is a demo storefront, no real payment was taken.`;
+          const adminNumber = process.env.ADMIN_WHATSAPP_NUMBER;
+          const normalize = (n: string) => n.replace(/^whatsapp:/, '').replace(/[^\d+]/g, '');
+          // Twilio's sandbox ACCEPTS sends to non-joined numbers and only fails
+          // delivery later, so a successful API call proves nothing. Only the
+          // admin number is on the sandbox — anyone else goes straight to fallback.
+          const onSandbox = adminNumber && normalize(input.whatsappNumber) === normalize(adminNumber);
           try {
-            await sendWhatsAppMessage(input.whatsappNumber, waMessage);
-            whatsappSent = true;
-          } catch (err) {
-            console.error('WhatsApp send failed, falling back to admin number', err);
-            const adminNumber = process.env.ADMIN_WHATSAPP_NUMBER;
-            if (adminNumber) {
-              try {
-                await sendWhatsAppMessage(adminNumber, `[Demo fallback — customer number unreachable] ${waMessage}`);
-                whatsappFallback = true;
-              } catch (fallbackErr) {
-                console.error('WhatsApp fallback send also failed', fallbackErr);
-              }
+            if (onSandbox) {
+              await sendWhatsAppMessage(input.whatsappNumber, waMessage);
+              whatsappSent = true;
+            } else if (adminNumber) {
+              await sendWhatsAppMessage(adminNumber, `[Demo fallback — customer number not on sandbox] ${waMessage}`);
+              whatsappFallback = true;
             }
+          } catch (err) {
+            console.error('WhatsApp send failed', err);
           }
         }
 
