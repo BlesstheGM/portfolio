@@ -49,9 +49,9 @@ const FEATURES = [
     desc: 'Next.js App Router on Vercel, environment-based config, real secrets in .env, auto-deploy on push. You own it after ship.',
   },
   {
-    icon: '🔐',
-    title: 'Conversation memory & order tracking',
-    desc: 'Stateful agent across web + WhatsApp. Full order lifecycle: search → confirm → email required → order recorded → status lookup.',
+    icon: '✉️',
+    title: 'Personalized email sender',
+    desc: 'Tell the agent your name and your order confirmation arrives from you@blessinghlongwane.xyz — dynamic sender addresses via Resend on a verified domain.',
   },
 ];
 
