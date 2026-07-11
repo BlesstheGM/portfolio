@@ -13,8 +13,8 @@ const STARTERS = [
 const FEATURES = [
   {
     icon: '🛍️',
-    title: 'Full-stack e-commerce agent',
-    desc: 'React/TypeScript frontend, serverless backend, Postgres data layer. Take a feature from idea to live across the whole stack.',
+    title: 'Full-stack e-commerce agent — any language',
+    desc: "React/TypeScript frontend, serverless backend, Postgres data layer — and the agent chats in the customer's language.",
   },
   {
     icon: '🤖',
@@ -129,7 +129,7 @@ export default function Home() {
     {
       role: 'assistant',
       content:
-        "Hey — I'm a shopping agent. I search live Google Shopping listings (real retailers, real prices) and can place a demo order or check one for you. What are you looking for?",
+        "Hey — I'm a shopping agent. I search live Google Shopping listings (real retailers, real prices) and can place a demo order or check one for you. Any language works — praat Afrikaans, khuluma isiZulu... taxi hand signals not supported (yet). What are you looking for?",
     },
   ]);
   const [input, setInput] = useState('');
