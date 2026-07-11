@@ -14,10 +14,13 @@
 |---|---|
 | 🔍 **Real product search** | Live Google Shopping listings via RapidAPI — real retailers, real prices, clickable links. No seeded data. |
 | 🤖 **Agentic tool-calling** | The model decides for itself when to search, place an order, or look up status — orchestrated by the Vercel AI SDK. |
+| ⚡ **Streaming replies** | Tokens render as they arrive — with half-written markdown held back so links and bold only appear fully formed. |
+| 🌍 **Any language** | The agent replies in whatever language the customer writes — English, Afrikaans, isiZulu, French... taxi hand signals not supported (yet). |
 | 📧 **Transactional email** | Order confirmations via Resend on a verified custom domain. |
 | ✉️ **Personalized sender** | Tell the agent your name and your confirmation arrives from `yourname@blessinghlongwane.xyz`. |
 | 💬 **WhatsApp updates** | Optional order updates via Twilio — with an honest fallback path when a number isn't reachable. |
 | 🔎 **Order tracking** | Ask about any order ID (`ORD-XXXXXX`) anytime. No login needed. |
+| 🔒 **Fresh sessions** | Every page load starts a clean conversation — the agent never recalls a previous visitor's details. |
 
 ## Architecture
 
@@ -47,7 +50,7 @@ One agent core, two transports: the web chat and the WhatsApp webhook share the 
 ## Stack
 
 - **Next.js 16 · React 19 · TypeScript** — App Router, serverless API routes, client chat UI
-- **Vercel AI SDK** — multi-step tool-calling loop (`generateText` + `stopWhen`)
+- **Vercel AI SDK** — multi-step tool-calling loop (`streamText` + `stopWhen`), replies streamed token-by-token; DB writes deferred with Next's `after()` so they never block the response
 - **Google Gemini** — the model behind the conversation (provider-agnostic via the AI SDK)
 - **Supabase (Postgres)** — orders and conversation memory; RLS enabled, server-only service-role access
 - **RapidAPI Real-Time Product Search** — live Google Shopping data
