@@ -30,28 +30,28 @@ const FEATURES = [
   },
   {
     icon: '🤖',
-    title: 'Multi-LLM agentic tool-calling',
-    desc: 'Built with Vercel AI SDK. Swap between Claude, Gemini, OpenAI — the agent decides when to search, transact, or look up orders.',
+    title: 'Agentic tool-calling with Vercel AI SDK',
+    desc: 'Built with Vercel AI SDK and Google Gemini. The agent decides when to search products, place orders, or look up status.',
   },
   {
     icon: '🔌',
     title: 'Real-time API integrations',
-    desc: 'Live product search, transactional email (Resend), WhatsApp/Messenger via Twilio/Meta APIs. Handle cross-system failures gracefully.',
+    desc: 'Live product search (RapidAPI), transactional email (Resend), WhatsApp updates (Twilio). Handle cross-system failures gracefully.',
   },
   {
     icon: '📊',
-    title: 'Scalable data & transactions',
+    title: 'Scalable data',
     desc: 'Supabase + Postgres for multi-tenant safety. Order workflow with email confirmations, status tracking, and secure customer data.',
   },
   {
-    icon: '💬',
-    title: 'Meta ecosystem messaging',
-    desc: 'WhatsApp order updates, opt-in per customer. Webhook validation, message delivery tracking, fallback to admin on failure.',
+    icon: '☁️',
+    title: 'Vercel cloud deployment',
+    desc: 'Next.js App Router on Vercel, environment-based config, real secrets in .env, auto-deploy on push. You own it after ship.',
   },
   {
-    icon: '🚀',
-    title: 'Production-ready deployment',
-    desc: 'Vercel edge functions, environment-based config, real secrets in .env, zero-downtime deploys. You own it after it ships.',
+    icon: '🔐',
+    title: 'Conversation memory & order tracking',
+    desc: 'Stateful agent across web + WhatsApp. Full order lifecycle: search → confirm → email required → order recorded → status lookup.',
   },
 ];
 
